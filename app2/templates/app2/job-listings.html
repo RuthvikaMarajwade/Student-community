@@ -1,0 +1,123 @@
+{% extends 'base.html' %} 
+{% block title %}job-listing{% endblock title %}
+{% block content%}
+            <section class="section-padding pb-0 d-flex justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-12 col-12">
+                            <form class="custom-form hero-form" action="#" method="POST" role="form">
+                                {% csrf_token %}
+                                <h3 class="text-white mb-3">Search your dream job</h3>
+                                
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-12"> 
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="bi-person custom-icon"></i></span>
+                                            <input type="text" name="job-title" id="job-title" class="form-control" placeholder="Job Title" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="bi-geo-alt custom-icon"></i></span>
+
+                                            <input type="text" name="job-location" id="job-location" class="form-control" placeholder="Location" required>
+                                        </div>
+                                    </div>
+
+                                 <!---->
+                                    <div class="col-lg-12 col-12">
+                                        <button type="submit" class="form-control">
+                                            Search job
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <img src="images/4557388.png" class="hero-image img-fluid" alt="">
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+        <!--    -->
+            <section class="job-section recent-jobs-section section-padding">
+                <div class="container">
+                    <div class="row align-items-center">
+            
+                        <div class="col-lg-6 col-12 mb-4">
+                            <h2>{{q}}</h2>
+                        </div>
+            
+                        <div class="clearfix"></div>
+                        {% for jobs in jo %}
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="job-thumb job-thumb-box">
+                                <div class="job-image-box-wrap">
+                                    <a href="{% url 'details' jobs.slug %}">
+                                        <img src="{{jobs.img.url}}" class="job-image img-fluid" alt="">
+                                    </a>
+            
+                                   <!-- -->
+                                </div>
+            
+                                <div class="job-body">
+                                    <h4 class="job-title">
+                                        <a href="{% url 'details' jobs.slug %}" class="job-title-link">{{jobs.job}}</a>
+                                    </h4>
+            
+                                    <div class="d-flex align-items-center">
+                                        <div class="job-image-wrap d-flex align-items-center bg-white shadow-lg mt-2 mb-4">
+                                            <img src="{{jobs.img.url}}" class="job-image me-3 img-fluid" alt="">
+            
+                                            <p class="mb-0">{{jobs.Company.name}}</p>
+                                        </div>
+            
+                                        <a href="#" class="bi-bookmark ms-auto me-2">
+                                        </a>
+            
+                                        <a href="#" class="bi-heart">
+                                        </a>
+                                    </div>
+            
+                                    <div class="d-flex align-items-center">
+                                        <p class="job-location">
+                                            <i class="custom-icon bi-geo-alt me-1"></i>
+                                            {{jobs.location}}
+                                        </p>
+            
+                                        <p class="job-date">
+                                            <i class="custom-icon bi-clock me-1"></i>
+                                            {{jobs.date|date:"d-m-20y"}}
+                                        </p>
+                                    </div>
+            
+                                    <div class="d-flex align-items-center border-top pt-3">
+                                        <p class="job-price mb-0">
+                                            <i class="custom-icon bi-cash me-1"></i>
+                                            {{jobs.salary}}
+                                        </p>
+                                    {% if user.is_authenticated %}
+                                    <div class="job-section-btn-wrap">
+                                        <a href="{% url 'details' jobs.slug %}" class="custom-btn btn">Apply now</a>
+                                    </div>
+                                    {% else %}
+                                    <li class="nav-item ms-lg-auto">
+                                        <a class="nav-link custom-btn btn" href="{% url 'login' %}">Apply now</a>
+                                    </li>
+                                    {% endif %}
+                                    <!---->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+            {% endblock content %} 
